@@ -2,6 +2,7 @@
 
 ## Objectif : Développer un robot assistant capable de se déplacer dans les chambres des patients d'un hôpital et de transmettre leurs problèmes au personnel médical via des commandes vocales.
 
+
 ## Fonctionnalités :
 
 Compréhension des commandes vocales du personnel médical.
@@ -34,4 +35,5 @@ To do...
 * [@Tixwell](https://github.com/Tixwell)
 * [@Maximedigi](https://github.com/Maximedigi)
 * [@TitouanBgr](https://github.com/TitouanBgr)
+
 Ce projet est ouvert aux contributions. N'hésitez pas à proposer des améliorations ou à corriger des bugs.
