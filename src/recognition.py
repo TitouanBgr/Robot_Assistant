@@ -1,5 +1,10 @@
 import speech_recognition as sr
 from src.utils import ask_to_gpt
+from gpiozero import Motor
+from time import sleep
+
+motor_left = Motor(forward=17, backward=18)
+motor_right = Motor(forward=22, backward=23)
 
 class TextRecognition:
     def __init__(self):
@@ -14,15 +19,35 @@ class TextRecognition:
 
     def move_forward(self, text):
         print("Action: Avancer")
+        motor_left.forward()
+        motor_right.forward()
+        sleep(1)
+        motor_left.stop()
+        motor_right.stop()
 
     def move_backward(self, text):
         print("Action: Reculer")
+        motor_left.backward()
+        motor_right.backward()
+        sleep(1)
+        motor_left.stop()
+        motor_right.stop()
 
     def move_left(self,text):
         print("Action: Tourner à gauche")
+        motor_left.backward()
+        motor_right.forward()
+        sleep(1)
+        motor_left.stop()
+        motor_right.stop()
 
     def move_right(self,text):
         print("Action: Tourner à droite")
+        motor_left.forward()
+        motor_right.backward()
+        sleep(1)
+        motor_left.stop()
+        motor_right.stop()
 
     def listen_more(self, text):
         return ask_to_gpt(text)
