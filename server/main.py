@@ -61,7 +61,7 @@ def stop():
     pwm_a.stop()
     pwm_b.stop()
     GPIO.output(17, GPIO.LOW)  # ENA
-    GPIO.output(18, GPIO.LOW)  # ENB
+    GPIO.output(25, GPIO.LOW)  # ENB
 
 @app.route('/avancer', methods=['POST'])
 def avancer():
