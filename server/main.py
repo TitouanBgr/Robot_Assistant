@@ -15,7 +15,7 @@ GPIO.setup(24, GPIO.OUT)  # IN4
 
 
 pwm_a = GPIO.PWM(17, 100)  # PWM pour la vitesse du moteur A
-pwm_b = GPIO.PWM(18, 100)  # PWM pour la vitesse du moteur B
+pwm_b = GPIO.PWM(25, 100)  # PWM pour la vitesse du moteur B
 
 def drive_forward():
     GPIO.output(27, GPIO.HIGH)  # IN1
