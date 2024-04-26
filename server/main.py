@@ -24,7 +24,7 @@ def drive_forward():
     GPIO.output(24, GPIO.HIGH)  # IN4
     pwm_a.start(100)
     pwm_b.start(100)
-    time.sleep(1) 
+    time.sleep(2) 
     stop()
 
 def drive_backward():
@@ -34,7 +34,7 @@ def drive_backward():
     GPIO.output(24, GPIO.LOW)
     pwm_a.start(100)
     pwm_b.start(100)
-    time.sleep(1) 
+    time.sleep(2) 
     stop()
 
 def turn_left():
@@ -44,7 +44,7 @@ def turn_left():
     GPIO.output(24, GPIO.LOW)
     pwm_a.start(100)
     pwm_b.start(100)
-    time.sleep(1) 
+    time.sleep(2) 
     stop()
 
 def turn_right():
@@ -54,7 +54,7 @@ def turn_right():
     GPIO.output(24, GPIO.HIGH)
     pwm_a.start(100)
     pwm_b.start(100)
-    time.sleep(1) 
+    time.sleep(2) 
     stop()
 
 def stop():
