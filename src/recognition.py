@@ -2,9 +2,7 @@ import speech_recognition as sr
 from src.utils import ask_to_gpt
 from gpiozero import Motor
 from time import sleep
-
-motor_left = Motor(forward=17, backward=18)
-motor_right = Motor(forward=22, backward=23)
+import requests
 
 class TextRecognition:
     def __init__(self):
@@ -16,38 +14,23 @@ class TextRecognition:
             "droite": self.move_right,
             "écoute": self.listen_more
         }
+        self.api_url = "http://10.38.161.78:5000"  
 
     def move_forward(self, text):
         print("Action: Avancer")
-        motor_left.forward()
-        motor_right.forward()
-        sleep(1)
-        motor_left.stop()
-        motor_right.stop()
+        requests.post(f"{self.api_url}/avancer")
 
     def move_backward(self, text):
         print("Action: Reculer")
-        motor_left.backward()
-        motor_right.backward()
-        sleep(1)
-        motor_left.stop()
-        motor_right.stop()
+        requests.post(f"{self.api_url}/reculer")
 
-    def move_left(self,text):
+    def move_left(self, text):
         print("Action: Tourner à gauche")
-        motor_left.backward()
-        motor_right.forward()
-        sleep(1)
-        motor_left.stop()
-        motor_right.stop()
+        requests.post(f"{self.api_url}/gauche")
 
-    def move_right(self,text):
+    def move_right(self, text):
         print("Action: Tourner à droite")
-        motor_left.forward()
-        motor_right.backward()
-        sleep(1)
-        motor_left.stop()
-        motor_right.stop()
+        requests.post(f"{self.api_url}/droite")
 
     def listen_more(self, text):
         return ask_to_gpt(text)

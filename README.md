@@ -30,6 +30,11 @@ To do...
 5. Le robot reviens sur ses pas
 6. Le robot synthétise et communique le besoin du patient au personnel médical
 
+### Commandes pour lancer le système :
+- Pour exécuter les tests : `python3.11 -m unittest`
+- Pour démarrer le serveur sur le Raspberry Pi : `sudo python3 server/main.py`
+- Pour exécuter le client de reconnaissance vocale : `python3.11 main.py`
+
 ## Contributions :
 
 * [@Tixwell](https://github.com/Tixwell)
