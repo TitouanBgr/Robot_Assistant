@@ -7,7 +7,7 @@ app = Flask(__name__)
 # Configuration des broches GPIO
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(17, GPIO.OUT)  # ENA
-GPIO.setup(25, GPIO.OUT)  # ENB
+GPIO.setup(18, GPIO.OUT)  # ENB
 GPIO.setup(27, GPIO.OUT)  # IN1
 GPIO.setup(22, GPIO.OUT)  # IN2
 GPIO.setup(23, GPIO.OUT)  # IN3
@@ -15,7 +15,7 @@ GPIO.setup(24, GPIO.OUT)  # IN4
 
 
 pwm_a = GPIO.PWM(17, 100)  # PWM pour la vitesse du moteur A
-pwm_b = GPIO.PWM(25, 100)  # PWM pour la vitesse du moteur B
+pwm_b = GPIO.PWM(18, 100)  # PWM pour la vitesse du moteur B
 
 def drive_forward():
     GPIO.output(27, GPIO.HIGH)  # IN1
@@ -61,7 +61,7 @@ def stop():
     pwm_a.stop()
     pwm_b.stop()
     GPIO.output(17, GPIO.LOW)  # ENA
-    GPIO.output(25, GPIO.LOW)  # ENB
+    GPIO.output(18, GPIO.LOW)  # ENB
 
 @app.route('/avancer', methods=['POST'])
 def avancer():
