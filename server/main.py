@@ -1,50 +1,84 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 import RPi.GPIO as GPIO
 import time
 
 app = Flask(__name__)
 
+# Configuration des broches GPIO
 GPIO.setmode(GPIO.BCM)
-GPIO.setwarnings(False)
+GPIO.setup(17, GPIO.OUT)  # ENA
+GPIO.setup(18, GPIO.OUT)  # ENB
+GPIO.setup(27, GPIO.OUT)  # IN1
+GPIO.setup(22, GPIO.OUT)  # IN2
+GPIO.setup(23, GPIO.OUT)  # IN3
+GPIO.setup(24, GPIO.OUT)  # IN4
 
-pin_avancer = 23
-pin_reculer = 24
-pin_tourner_gauche = 17
-pin_tourner_droite = 27
+# Initialisation des PWM pour le contrôle de vitesse
+pwm_a = GPIO.PWM(17, 100)  # PWM pour la vitesse du moteur A
+pwm_b = GPIO.PWM(18, 100)  # PWM pour la vitesse du moteur B
 
-GPIO.setup(pin_avancer, GPIO.OUT)
-GPIO.setup(pin_reculer, GPIO.OUT)
-GPIO.setup(pin_tourner_gauche, GPIO.OUT)
-GPIO.setup(pin_tourner_droite, GPIO.OUT)
+def drive_forward():
+    GPIO.output(27, GPIO.HIGH)  # IN1
+    GPIO.output(22, GPIO.LOW)   # IN2
+    GPIO.output(23, GPIO.LOW)   # IN3
+    GPIO.output(24, GPIO.HIGH)  # IN4
+    pwm_a.start(100)
+    pwm_b.start(100)
 
-def control_gpio(pin, duration=1):
-    GPIO.output(pin, GPIO.HIGH)
-    time.sleep(duration)
-    GPIO.output(pin, GPIO.LOW)
+def drive_backward():
+    GPIO.output(27, GPIO.LOW)
+    GPIO.output(22, GPIO.HIGH)
+    GPIO.output(23, GPIO.HIGH)
+    GPIO.output(24, GPIO.LOW)
+    pwm_a.start(100)
+    pwm_b.start(100)
+
+def turn_left():
+    GPIO.output(27, GPIO.HIGH)
+    GPIO.output(22, GPIO.LOW)
+    GPIO.output(23, GPIO.HIGH)
+    GPIO.output(24, GPIO.LOW)
+    pwm_a.start(100)
+    pwm_b.start(100)
+
+def turn_right():
+    GPIO.output(27, GPIO.LOW)
+    GPIO.output(22, GPIO.HIGH)
+    GPIO.output(23, GPIO.LOW)
+    GPIO.output(24, GPIO.HIGH)
+    pwm_a.start(100)
+    pwm_b.start(100)
+
+def stop():
+    pwm_a.stop()
+    pwm_b.stop()
+    GPIO.output(17, GPIO.LOW)  # ENA
+    GPIO.output(18, GPIO.LOW)  # ENB
 
 @app.route('/avancer', methods=['POST'])
 def avancer():
-    duration = request.json.get('duration', 1)
-    control_gpio(pin_avancer, duration)
-    return "Avancé pendant {} secondes".format(duration)
+    drive_forward()
+    return jsonify(message="Driving forward")
 
 @app.route('/reculer', methods=['POST'])
 def reculer():
-    duration = request.json.get('duration', 1)
-    control_gpio(pin_reculer, duration)
-    return "Reculé pendant {} secondes".format(duration)
+    drive_backward()
+    return jsonify(message="Driving backward")
 
-@app.route('/tourner/gauche', methods=['POST'])
-def tourner_gauche():
-    duration = request.json.get('duration', 1)
-    control_gpio(pin_tourner_gauche, duration)
-    return "Tourné à gauche pendant {} secondes".format(duration)
+@app.route('/gauche', methods=['POST'])
+def gauche():
+    turn_left()
+    return jsonify(message="Turning left")
 
-@app.route('/tourner/droite', methods=['POST'])
-def tourner_droite():
-    duration = request.json.get('duration', 1)
-    control_gpio(pin_tourner_droite, duration)
-    return "Tourné à droite pendant {} secondes".format(duration)
+@app.route('/droite', methods=['POST'])
+def droite():
+    turn_right()
+    return jsonify(message="Turning right")
+
+@app.route('/stop', methods=['POST'])
+def api_stop():
+    stop()
+    return jsonify(message="Stopping")
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5000, debug=True)
